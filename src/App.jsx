@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Sidebar from "./components/Sidebar.jsx";
 import FileUpload from "./components/FileUpload.jsx";
 import ChatArea from "./components/ChatArea.jsx";
@@ -29,6 +30,8 @@ function Oscilloscope({ className }) {
 }
 
 export default function App() {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
   const {
     apiKey, handleApiKey,
     model, handleModel,
@@ -52,9 +55,11 @@ export default function App() {
         detail={detail}
         setDetail={handleDetail}
         hasApiKey={!!(apiKey || import.meta.env.VITE_OPENAI_API_KEY)}
+        collapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed((c) => !c)}
       />
 
-      <main className="main">
+      <main className={`main${sidebarCollapsed ? " collapsed" : ""}`}>
         <div className="main-content">
           <header className="header">
             <div className="header-brand">
